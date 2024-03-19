@@ -87,7 +87,7 @@ def cykParse(w):
 						# If a terminal is found
 						if len(rhs) == 2 and \
 						rhs[0] in T[i][k] and \
-						rhs[1] in T[k + 1][j]:
+						rhs[1] in T[k][j]:
 							T[i][j].add(lhs)
 
 	# If word can be formed by rules 
@@ -100,7 +100,9 @@ def cykParse(w):
 # Driver Code
 
 # Given string
-w = "n+n".split()
+w = ["n", "+", "n"]
+
+print("The given string is: " + str(w))
 
 # Function Call
 cykParse(w)

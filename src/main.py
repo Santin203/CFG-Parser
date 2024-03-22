@@ -4,8 +4,6 @@
 
 # https://stackoverflow.com/questions/52921637/cyk-algorithm-implementation
 
-import numpy as np
-import pandas as pd
 import os
 
 def is_in_cartesian_prod(x, y, r):

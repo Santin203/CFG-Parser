@@ -1,5 +1,6 @@
 import pytest
-from src.main import *
+#from src.main import *
+from main import *
 
 def test_accept_CYK():
     # Test case 0: w is not epsilon and G is a CFG in CNF for simple operations precedence

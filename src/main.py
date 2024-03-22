@@ -1,108 +1,69 @@
 # Program that takes as an input a CNF, runs CYK algorithm and returns if the input string is in the language of the grammar
 # By Santiago Jiménez
-# Python implementation for the
-# CYK Algorithm
+# Python implementation for the CYK Algorithm
 
-# Non-terminal symbols
-# non_terminals = ["NP", "Nom", "Det", "AP", 
-# 				"Adv", "A"]
-# terminals = ["book", "orange", "man", 
-# 			"tall", "heavy", 
-# 			"very", "muscular"]
+# https://stackoverflow.com/questions/52921637/cyk-algorithm-implementation
 
-# # Rules of the grammar
-# R = {
-# 	"NP": [["Det", "Nom"]],
-# 	"Nom": [["AP", "Nom"], ["book"], 
-# 			["orange"], ["man"]],
-# 	"AP": [["Adv", "A"], ["heavy"], 
-# 			["orange"], ["tall"]],
-# 	"Det": [["a"]],
-# 	"Adv": [["very"], ["extremely"]],
-# 	"A": [["heavy"], ["orange"], ["tall"], 
-# 		["muscular"]]
-# 	}
-import xml.etree.ElementTree as ET
+import numpy as np
+import pandas as pd
+import os
 
+def is_in_cartesian_prod(x, y, r):
+    return r in [i+j for i in x.split(',') for j in y.split(',')]
 
-# The path to your XML file
-file_path = r'C:\Users\Casas\OneDrive - Texas Tech University\Documents\Texas Tech\Spring 2024\CS-3383\Projects\Project 2\src\hw2_cnf.jff'
+def read_grammar(filename="./grammar.txt"):
+    grammar = {}
+    with open(filename, 'r') as file:
+        for line in file:
+            key, value = line.strip().split(' -> ')
+            if key in grammar:
+                grammar[key].append(value)
+            else:
+                grammar[key] = [value]
+    return grammar
 
-# Parse the XML file
-tree = ET.parse(file_path)
-root = tree.getroot()
+def print_grammar(G):
+    for key in G.keys():
+        print(key, '->', G[key])
 
-# Initialize the dictionary for the rules of the grammar
-R = {}
+def read_input(filename="./input.txt"):
+    filename = os.path.join(os.curdir, filename)
+    with open(filename) as inp:
+        inputs = inp.readlines()
+    return inputs[0]
 
-# Iterate over all 'production' elements in the XML
-for production in root.iter('production'):
-    # Get the non-terminal and the right-hand side of the production
-    non_terminal = production.find('left').text
-    rhs = production.find('right').text
+def accept_CYK(w, G, S):
+    # $ is epsilon
+    if w == '$':
+        return '$' in G[S]
+    n = len(w)
+    DP_table = [['']*n for _ in range(n)]
+    for i in range(n):
+        for lhs in G.keys():
+            for rhs in G[lhs]:
+                 if w[i] == rhs: # rules of the form A -> a
+                    DP_table[i][i] = lhs if not DP_table[i][i] else DP_table[i][i] + ',' + lhs
+                    
+    for l in range(2, n+1):       # span
+        for i in range(n-l+1):    # start
+            j = i+l-1             # right
+            for k in range(i, j): # partition
+                for lhs in G.keys():
+                    for rhs in G[lhs]:
+                        if len(rhs) == 2: #rules of form A -> BC
+                            if is_in_cartesian_prod(DP_table[i][k], DP_table[k+1][j], rhs):
+                                if not lhs in DP_table[i][j]:
+                                    DP_table[i][j] = lhs if not DP_table[i][j] else DP_table[i][j] + ',' + lhs
 
-    # If the non-terminal is not in the dictionary yet, add it
-    if non_terminal not in R:
-        R[non_terminal] = []
+    return S in DP_table[0][n-1]  
 
-    # Add the right-hand side of the production to the list of rules for the non-terminal
-    R[non_terminal].append(list(rhs))
+# read the grammar from the file
+G = read_grammar()
 
-# Now, R is a dictionary that represents the grammar in the desired format
+# Print the grammar nicely
+print_grammar(G)
 
-print("The grammar is: " + str(R))
-print("The non-terminals are: " + str(R.keys()))
+W = read_input()
 
-
-
-
-# Function to perform the CYK Algorithm
-def cykParse(w):
-	n = len(w)
-	
-	# Initialize the table
-	T = [[set([]) for j in range(n)] for i in range(n)]
-
-	# Filling in the table
-	for j in range(0, n):
-
-		# Iterate over the rules
-		for lhs, rule in R.items():
-			for rhs in rule:
-				
-				# If a terminal is found
-				if len(rhs) == 1 and \
-				rhs[0] == w[j]:
-					T[j][j].add(lhs)
-
-		for i in range(j, -1, -1): 
-			
-			# Iterate over the range i to j + 1 
-			for k in range(i, j + 1):	 
-
-				# Iterate over the rules
-				for lhs, rule in R.items():
-					for rhs in rule:
-						
-						# If a terminal is found
-						if len(rhs) == 2 and \
-						rhs[0] in T[i][k] and \
-						rhs[1] in T[k][j]:
-							T[i][j].add(lhs)
-
-	# If word can be formed by rules 
-	# of given grammar
-	if len(T[0][n-1]) != 0:
-		print("True")
-	else:
-		print("False")
-	
-# Driver Code
-
-# Given string
-w = ["n", "+", "n"]
-
-print("The given string is: " + str(w))
-
-# Function Call
-cykParse(w)
+# now check if the string w is a member of G
+print(accept_CYK(W, G, 'E'))

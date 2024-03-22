@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 
 # The path to your XML file
-file_path = r'C:\Users\Casas\OneDrive - Texas Tech University\Documents\Texas Tech\Spring 2024\CS-3383\Projects\Project 2\src\hw2_cnf.jff'
+file_path = r'C:\Users\Casas\OneDrive - Texas Tech University\Documents\Texas Tech\Spring 2024\CS-3383\Projects\Project 2\hw2_cnf.jff'
 
 # Parse the XML file
 tree = ET.parse(file_path)
@@ -20,8 +20,13 @@ for production in root.iter('production'):
     if non_terminal not in R:
         R[non_terminal] = []
 
-    # Add the right-hand side of the production to the list of rules for the non-terminal
-    R[non_terminal].append(rhs.split())  # Change this line
+    try: 
+        # Add the right-hand side of the production to the list of rules for the non-terminal
+        R[non_terminal].append(rhs.split())  # Change this line
+    except:
+        # Add the right-hand side of the production to the list of rules for the non-terminal
+        # $ is epsilon
+        R[non_terminal].append(["$"])
 
 # Now, R is a dictionary that represents the grammar in the desired format
 print("The grammar is: " + str(R))

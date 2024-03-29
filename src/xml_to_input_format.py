@@ -23,7 +23,7 @@ def generate_input_file(input_file, output_file):
         f.write(text)
 
 def main():
-    input_file_path = r"C:\Users\santi\OneDrive - Texas Tech University\Documents\Texas Tech\Spring 2024\CS-3383\Projects\Project 2"
+    input_file_path = r"C:\Users\Casas\OneDrive - Texas Tech University\Documents\Texas Tech\Spring 2024\CS-3383\Projects\Project 2"
     file_name = input("Enter the name of the XML/HTML file: ")
     input_file_path = os.path.join(input_file_path, file_name)
     output_file = os.path.join(os.path.dirname(input_file_path), 'input.txt')

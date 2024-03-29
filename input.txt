@@ -1,1 +1,1 @@
-<a><b><c>text1</c><c>text2</c>a</b></a>
+<html></html>

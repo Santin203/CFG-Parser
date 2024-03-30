@@ -1,6 +1,6 @@
-# This program takes an XML/HTML file as input and generates a text file that can be used as input to the program.
+# This program takes an XML/HTML file as input and generates a text file that can be used as input to the main program.
 # It removes all the spaces and newlines, and puts everything in lowercase.
-# Output file is saved in the same directory as the input file. Output name: input.txt
+# Output file is saved in the same directory as the input file.
 import re
 import os
 
@@ -23,11 +23,16 @@ def generate_input_file(input_file, output_file):
         f.write(text)
 
 def main():
-    input_file_path = r"C:\Users\Casas\OneDrive - Texas Tech University\Documents\Texas Tech\Spring 2024\CS-3383\Projects\Project 2"
+    input_file_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     file_name = input("Enter the name of the XML/HTML file: ")
     input_file_path = os.path.join(input_file_path, file_name)
     output_file = os.path.join(os.path.dirname(input_file_path), 'input.txt')
-    generate_input_file(input_file_path, output_file)
+    
+    try:
+        generate_input_file(input_file_path, output_file)
+    except:
+        print("Error: File not found.")
+        return
 
 main()
 print("Input file generated successfully!")

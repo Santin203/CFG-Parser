@@ -1,10 +1,16 @@
 import xml.etree.ElementTree as ET
+import os
 
 # The path to your XML file
-file_path = r'C:\Users\Casas\OneDrive - Texas Tech University\Documents\Texas Tech\Spring 2024\CS-3383\Projects\Project 2\src\xml_cnf.jff'
+file_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'xml_cnf.jff')
 
 # Parse the XML file
-tree = ET.parse(file_path)
+try:
+    tree = ET.parse(file_path)
+except:
+    print("Error: File not found.")
+    exit()
+    
 root = tree.getroot()
 
 # Initialize the dictionary for the rules of the grammar

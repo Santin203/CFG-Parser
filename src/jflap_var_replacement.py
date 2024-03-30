@@ -1,4 +1,6 @@
-# string to be converted to a CFG
+# In JFLAP, transform the grammar to CNF, but instead of exporting it, copy and paste it here as a string
+
+# String to be converted to a CFG
 cfg = """X	gui.grammar.ArrowIcon@36be1ba4	B(<)D(7)
 X	gui.grammar.ArrowIcon@36be1ba4	B(<)D(10)
 X	gui.grammar.ArrowIcon@36be1ba4	B(<)D(4)

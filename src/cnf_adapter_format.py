@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 
 # The path to your XML file
-file_path = r'C:\Users\Casas\OneDrive - Texas Tech University\Documents\Texas Tech\Spring 2024\CS-3383\Projects\Project 2\src\html2.jff'
+file_path = r'C:\Users\Casas\OneDrive - Texas Tech University\Documents\Texas Tech\Spring 2024\CS-3383\Projects\Project 2\src\xml_cnf.jff'
 
 # Parse the XML file
 tree = ET.parse(file_path)

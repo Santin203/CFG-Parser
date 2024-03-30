@@ -1,0 +1,55 @@
+# variable assigment
+var-1
+
+# constant assigment
+const[1]
+-------------------------------------------------------
+# if-else
+# if c, do st
+# else do st2
+->c|st|st2|
+-------------------------------------------------------
+# while loop
+# while c is true, do st
+<c>st|
+-------------------------------------------------------
+# for loop
+# if c, do st, then update some variable with op
+[c]{op}[st]
+-------------------------------------------------------
+# basic math operators
+# addition
+n&n
+
+# subtraction
+n!&n
+
+# multiplication
+n$n
+
+# division
+n!$n
+
+# power
+n"n
+-------------------------------------------------------
+# function definition
+# only accepts one parameter, only returns one variable
+=function_name|par|st|
+
+# return (inside st), "output" is the returned variable
+'output'
+
+# function call
+?function_name|par|output|
+-------------------------------------------------------
+# recursion example
+=fib|n|->n<2|'n'|?fib|n!&1|fn1| ?fib|n!&2|fn2| fn-fn1&fn2 'fn'
+
+?fib|n|fn|
+-------------------------------------------------------
+# switch
+#var#=1|st|=2|st2|=!|default st|
+-------------------------------------------------------
+# print
+show|hello world!|

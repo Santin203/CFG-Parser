@@ -13,7 +13,11 @@ def read_grammar(filename="./grammar.txt"):
     grammar = {}
     with open(filename, 'r') as file:
         for line in file:
-            key, value = line.strip().split(' -> ')
+            # Handle spaces in the rhs (A -> ' ')
+            try:
+                key, value = line.strip().split(' -> ')
+            except:
+                key, value = line.strip().split()[0], ' '
             if key in grammar:
                 grammar[key].append(value)
             else:
@@ -48,13 +52,63 @@ def accept_CYK(w, G, S):
             for k in range(i, j): # partition
                 for lhs in G.keys():
                     for rhs in G[lhs]:
-                        if len(rhs) == 2: #rules of form A -> BC
+                        if len(rhs) >= 2: #rules of form A -> BC
                             if is_in_cartesian_prod(DP_table[i][k], DP_table[k+1][j], rhs):
                                 if not lhs in DP_table[i][j]:
                                     DP_table[i][j] = lhs if not DP_table[i][j] else DP_table[i][j] + ',' + lhs
 
     return S in DP_table[0][n-1]  
 
+# Main program
+# print("Welcome to the CFG parser!")
+
+# # CLI
+# while True:
+
+#     command = input(">> ")
+    
+#     # Parse the command
+
+#     # Exit the program
+#     if command == "exit":
+#         break
+    
+#     # Load a grammar from a file
+#     elif command.startswith("load -file="):
+
+#         # Clear the console
+#         os.system('cls' if os.name == 'nt' else 'clear')
+
+#         try:
+#             G = read_grammar(command.split("=")[1])
+#             print("Grammar loaded successfully.")
+#             print_grammar(G)
+#         except:
+#             print("Invalid file.")
+        
+#     # Process a string
+#     elif command.startswith("process -input="):
+#         W = command.split("=")[1].strip('"')
+#         print(accept_CYK(W, G, 'E'))
+        
+#     # Get string from file
+#     elif command.startswith("process -file="):
+#         try:
+#             W = read_input(command.split("=")[1])
+#             print(accept_CYK(W, G, 'E'))
+#         except:
+#             print("Invalid file.")
+    
+#     # Print the grammar
+#     elif command == "print":
+#         try:
+#             print_grammar(G)
+#         except:
+#             print("Grammar not loaded.")
+    
+#     else:
+#         print("Invalid command.")
+        
 # read the grammar from the file
 G = read_grammar()
 
@@ -64,4 +118,4 @@ print_grammar(G)
 W = read_input()
 
 # now check if the string w is a member of G
-print(accept_CYK(W, G, 'E'))
+print(accept_CYK(W, G, 'X'))

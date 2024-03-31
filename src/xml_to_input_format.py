@@ -42,9 +42,8 @@ def generate_input_file_html(input_file, output_file):
     with open(output_file, 'w') as f:
         f.write(text)
 
-def main():
+def convertion_to_input_format(file_name):
     input_file_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    file_name = input("Enter the name of the XML/HTML file: ")
     input_file_path = os.path.join(input_file_path, file_name)
     output_file = os.path.join(os.path.dirname(input_file_path), 'input.txt')
     
@@ -57,5 +56,3 @@ def main():
     except:
         print("Error: File not found.")
         return
-
-main()

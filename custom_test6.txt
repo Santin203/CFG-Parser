@@ -1,0 +1,1 @@
+=func|var1|i-var1'var1'| ?func|n|n2|

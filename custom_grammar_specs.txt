@@ -53,3 +53,10 @@ n"n
 -------------------------------------------------------
 # print
 show|hello world!|
+
+# comparisons
+n>n
+n<n
+n>=n
+n<=n
+n==n

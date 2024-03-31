@@ -4,8 +4,12 @@
 import re
 import os
 
-def remove_spaces(text):
+def remove_spaces_xml(text):
     return text.replace(' ', '')
+
+# only removes the spaces that are not between the tags
+def remove_spaces_html(text):
+    return re.sub(r'(?<=>)\s+(?=<)', '', text)
 
 def remove_newlines(text):
     return re.sub(r'\n+', ' ', text)
@@ -13,12 +17,28 @@ def remove_newlines(text):
 def lower(text):
     return text.lower()
 
-def generate_input_file(input_file, output_file):
+# function that changes the letters between the tags to "n", do not change the tags or the attributes
+def change_letters(text):
+    # change the letters inside "" to "n"
+    new_text = re.sub(r'".*?"', r'"n"', text)
+    return re.sub(r'>([^<]+)<', r'>n<', new_text)
+
+def generate_input_file_xml(input_file, output_file):
     with open(input_file, 'r') as f:
         text = f.read()
     text = remove_newlines(text)
-    text = remove_spaces(text)
+    text = remove_spaces_xml(text)
     text = lower(text)
+    with open(output_file, 'w') as f:
+        f.write(text)
+        
+def generate_input_file_html(input_file, output_file):
+    with open(input_file, 'r') as f:
+        text = f.read()
+    text = remove_newlines(text)
+    text = remove_spaces_html(text)
+    text = lower(text)
+    text = change_letters(text)
     with open(output_file, 'w') as f:
         f.write(text)
 
@@ -29,10 +49,13 @@ def main():
     output_file = os.path.join(os.path.dirname(input_file_path), 'input.txt')
     
     try:
-        generate_input_file(input_file_path, output_file)
+        if file_name.endswith('.xml'):
+            generate_input_file_xml(input_file_path, output_file)
+        else:
+            generate_input_file_html(input_file_path, output_file)
+        print("Input file generated successfully!")
     except:
         print("Error: File not found.")
         return
 
 main()
-print("Input file generated successfully!")

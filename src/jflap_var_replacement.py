@@ -839,19 +839,23 @@ def generate_unique_nonterminals(cfg):
 def convert_to_cfg(cfg):
     # Split the string by newlines
     cfg = cfg.split('\n')
+    
     # Get rid of empty strings
     cfg = [line for line in cfg if line]
+    
     # get rid of gui.grammar.ArrowIcon@36be1ba4
     cfg = [line.split('\t') for line in cfg]
+    
     # change element 1 of each line to '->'
     for line in cfg:
         line[1] = '->'
         
     # Convert back to a string
     cfg = [' '.join(line) for line in cfg]
+    
     # Join the lines with '\n'
     cfg = '\n'.join(cfg)
-    # Iterate over each line in the CFG, and change elements in format 'B(<)' to a unique non-terminal
+    
     # Generate mapping of old non-terminals to new non-terminals
     non_terminal_mapping = generate_unique_nonterminals(cfg)
 
@@ -862,6 +866,7 @@ def convert_to_cfg(cfg):
 
     return cfg
 
+# Print the converted CFG
 print(convert_to_cfg(cfg))
 
 # Save the CFG to a file

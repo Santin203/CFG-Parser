@@ -5,7 +5,11 @@
 # https://stackoverflow.com/questions/52921637/cyk-algorithm-implementation
 
 import os
+
+# For running the program
 #from xml_to_input_format import *
+
+# For running the tests
 from src.xml_to_input_format import *
 
 def is_in_cartesian_prod(x, y, r):
@@ -61,57 +65,60 @@ def accept_CYK(w, G, S):
 
     return S in DP_table[0][n-1]  
 
-# Main program
-# print("Welcome to the CFG parser!")
+def main():
+    # Main program
+    print("Welcome to the CFG parser!")
 
-# # CLI
-# while True:
+    # CLI
+    while True:
 
-#     command = input(">> ")
-    
-#     # Parse the command
-
-#     # Exit the program
-#     if command == "exit":
-#         break
-    
-#     # Load a grammar from a file
-#     elif command.startswith("load -file="):
-
-#         # Clear the console
-#         os.system('cls' if os.name == 'nt' else 'clear')
-
-#         try:
-#             G = read_grammar(command.split("=")[1])
-#             print("Grammar loaded successfully.")
-#             print_grammar(G)
-#         except:
-#             print("Invalid file.")
+        command = input(">> ")
         
-#     # Process a string
-#     elif command.startswith("process -input="):
-#         W = command.split("=")[1].strip('"')
-#         print(accept_CYK(W, G, 'X'))
+        # Parse the command
+
+        # Exit the program
+        if command == "exit":
+            break
         
-#     # Get string from file
-#     elif command.startswith("process -file="):
-#         try:
-#             if command.split("=")[1].endswith('.txt'):
-#                 W = read_input(command.split("=")[1])
-#             else:
-#                 convertion_to_input_format(command.split("=")[1])
-#                 W = read_input('input.txt')
-                
-#             print(accept_CYK(W, G, 'X'))
-#         except:
-#             print("Invalid file.")
-    
-#     # Print the grammar
-#     elif command == "print":
-#         try:
-#             print_grammar(G)
-#         except:
-#             print("Grammar not loaded.")
-    
-#     else:
-#         print("Invalid command.")
+        # Load a grammar from a file
+        elif command.startswith("load -file="):
+
+            # Clear the console
+            os.system('cls' if os.name == 'nt' else 'clear')
+
+            try:
+                G = read_grammar(command.split("=")[1])
+                print("Grammar loaded successfully.")
+                print_grammar(G)
+            except:
+                print("Invalid file.")
+            
+        # Process a string
+        elif command.startswith("process -input="):
+            W = command.split("=")[1].strip('"')
+            print(accept_CYK(W, G, 'X'))
+            
+        # Get string from file
+        elif command.startswith("process -file="):
+            try:
+                if command.split("=")[1].endswith('.txt'):
+                    W = read_input(command.split("=")[1])
+                else:
+                    conversion_to_input_format(command.split("=")[1])
+                    W = read_input('input.txt')
+                    
+                print(accept_CYK(W, G, 'X'))
+            except:
+                print("Invalid file.")
+        
+        # Print the grammar
+        elif command == "print":
+            try:
+                print_grammar(G)
+            except:
+                print("Grammar not loaded.")
+        
+        else:
+            print("Invalid command.")
+            
+#main()

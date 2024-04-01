@@ -1,1 +1,1 @@
-<catalog><cd><title>empireburlesque</title><artist>bobdylan</artist><country>usa</country><company>columbia</company><price>10.90</price><year>1985</year></cd></catalog>
+<a><b><c>text1</c><c>text2</c>a</b></a>

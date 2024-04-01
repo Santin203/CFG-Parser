@@ -7,10 +7,10 @@
 import os
 
 # For running the program
-from xml_to_input_format import *
+#from xml_to_input_format import *
 
 # For running the tests
-#from src.xml_to_input_format import *
+from src.xml_to_input_format import *
 
 # Function to check if a string is in the cartesian product of two strings
 def is_in_cartesian_prod(x, y, r):
@@ -153,4 +153,4 @@ def main():
         else:
             print("Invalid command.")
             
-main()
+#main()

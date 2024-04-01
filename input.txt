@@ -1,1 +1,1 @@
-<html><form action="n" method="n"><input type="n" id="n" name="n"><textarea id="n" name="n"></textarea></form></html>
+<html><div id="n"><span id="n">n</span></div></html>

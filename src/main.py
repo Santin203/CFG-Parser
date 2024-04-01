@@ -87,14 +87,22 @@ def main():
             break
         
         # Load a grammar from a file
-        elif command.startswith("load -file="):
+        elif command.startswith("load"):
 
             # Clear the console
             os.system('cls' if os.name == 'nt' else 'clear')
+            curr_grammar = input("Select the grammar file to load:\n 1. HTML\n 2. XML\n 3. Custom format\n\n")
 
             try:
-                # Load the grammar
-                G = read_grammar(command.split("=")[1])
+                if curr_grammar == '1':
+                    G = read_grammar('grammar_html.txt')
+                elif curr_grammar == '2':
+                    G = read_grammar('grammar_xml.txt')
+                elif curr_grammar == '3':
+                    G = read_grammar('grammar_custom.txt')
+                else:
+                    print("Invalid option.")
+                    continue
                 
                 print("Grammar loaded successfully.")
                 
@@ -105,8 +113,14 @@ def main():
             
         # Process a string
         elif command.startswith("process -input="):
-            # Get the string
-            W = command.split("=")[1].strip('"')
+            if curr_grammar == '1':
+                # Convert the XML/HTML file to the input format
+                W = conversion_string_to_input_format_html(command.split("=")[1])
+            else:
+                # Get the string
+                W = command.split("=")[1].strip('"')
+            
+            
             
             # Check string
             print(accept_CYK(W, G, 'X'))

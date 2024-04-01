@@ -12,9 +12,11 @@ import os
 # For running the tests
 from src.xml_to_input_format import *
 
+# Function to check if a string is in the cartesian product of two strings
 def is_in_cartesian_prod(x, y, r):
     return r in [i+j for i in x.split(',') for j in y.split(',')]
 
+# Function to read the grammar from a file
 def read_grammar(filename):
     grammar = {}
     with open(filename, 'r') as file:
@@ -30,16 +32,19 @@ def read_grammar(filename):
                 grammar[key] = [value]
     return grammar
 
+# Function to print the grammar
 def print_grammar(G):
     for key in G.keys():
         print(key, '->', G[key])
 
+# Function to read the input from a file
 def read_input(filename):
     filename = os.path.join(os.curdir, filename)
     with open(filename) as inp:
         inputs = inp.readlines()
     return inputs[0]
 
+# Function to check if a string is in the language of a grammar
 def accept_CYK(w, G, S):
     # $ is epsilon
     if w == '$':
@@ -63,6 +68,7 @@ def accept_CYK(w, G, S):
                                 if not lhs in DP_table[i][j]:
                                     DP_table[i][j] = lhs if not DP_table[i][j] else DP_table[i][j] + ',' + lhs
 
+    # S is the start symbol
     return S in DP_table[0][n-1]  
 
 def main():
@@ -87,26 +93,38 @@ def main():
             os.system('cls' if os.name == 'nt' else 'clear')
 
             try:
+                # Load the grammar
                 G = read_grammar(command.split("=")[1])
+                
                 print("Grammar loaded successfully.")
+                
                 print_grammar(G)
+                
             except:
                 print("Invalid file.")
             
         # Process a string
         elif command.startswith("process -input="):
+            # Get the string
             W = command.split("=")[1].strip('"')
+            
+            # Check string
             print(accept_CYK(W, G, 'X'))
             
         # Get string from file
         elif command.startswith("process -file="):
             try:
+                # Check if the file is a .txt (custom format)
                 if command.split("=")[1].endswith('.txt'):
                     W = read_input(command.split("=")[1])
                 else:
+                    # Convert the XML/HTML file to the input format
                     conversion_to_input_format(command.split("=")[1])
-                    W = read_input('input.txt')
                     
+                    # Read the input
+                    W = read_input('input.txt')
+                
+                # Check string
                 print(accept_CYK(W, G, 'X'))
             except:
                 print("Invalid file.")

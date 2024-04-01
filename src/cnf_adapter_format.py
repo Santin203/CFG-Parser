@@ -1,3 +1,5 @@
+# This script reads a context-free grammar in XML format and converts it to a dictionary that represents the grammar in Chomsky Normal Form (CNF).
+# It writes the grammar to a file in the format required by the CYK algorithm.
 import xml.etree.ElementTree as ET
 import os
 

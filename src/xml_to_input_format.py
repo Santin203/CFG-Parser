@@ -64,3 +64,10 @@ def conversion_to_input_format(file_name):
     except:
         print("Error: File not found.")
         return
+    
+def conversion_string_to_input_format_html(string):
+    text = remove_newlines(string)
+    text = remove_spaces_html(text)
+    text = lower(text)
+    text = change_letters(text)
+    return text
